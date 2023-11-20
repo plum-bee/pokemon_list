@@ -5,8 +5,10 @@ import 'pokemon_detail_page.dart';
 class PokemonCard extends StatefulWidget {
   final Pokemon pokemon;
   final Function(Pokemon) onRatingUpdated;
+  final Function() onSortPokemons;
 
-  const PokemonCard(this.pokemon, {Key? key, required this.onRatingUpdated})
+  const PokemonCard(this.pokemon,
+      {Key? key, required this.onRatingUpdated, required this.onSortPokemons})
       : super(key: key);
 
   @override
@@ -126,7 +128,8 @@ class _PokemonCardState extends State<PokemonCard>
   void showPokemonDetailPage() {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
       return PokemonDetailPage(widget.pokemon,
-          onRatingUpdated: widget.onRatingUpdated);
+          onRatingUpdated: widget.onRatingUpdated,
+          onSortPokemons: widget.onSortPokemons);
     }));
   }
 

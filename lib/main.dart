@@ -50,6 +50,10 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void sortAndUpdatePokemons() {
+    _sortPokemons();
+  }
+
   Future _showNewPokemonForm() async {
     final newPokemon = await Navigator.of(context).push(
       MaterialPageRoute(builder: (BuildContext context) {
@@ -87,7 +91,8 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Container(
         color: const Color.fromARGB(255, 88, 111, 137),
         child: Center(
-          child: PokemonList(initialPokemons),
+          child: PokemonList(initialPokemons,
+              onSortPokemons: sortAndUpdatePokemons),
         ),
       ),
       floatingActionButton: FloatingActionButton(

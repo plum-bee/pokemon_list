@@ -4,9 +4,10 @@ import 'pokemon_model.dart';
 class PokemonDetailPage extends StatefulWidget {
   final Pokemon pokemon;
   final Function(Pokemon) onRatingUpdated;
+  final Function() onSortPokemons;
 
   const PokemonDetailPage(this.pokemon,
-      {Key? key, required this.onRatingUpdated})
+      {Key? key, required this.onRatingUpdated, required this.onSortPokemons})
       : super(key: key);
 
   @override
@@ -94,6 +95,7 @@ class _PokemonDetailPageState extends State<PokemonDetailPage> {
       setState(() {
         widget.pokemon.rating = _sliderValue.toInt();
         widget.onRatingUpdated(widget.pokemon);
+        widget.onSortPokemons();
       });
     }
   }
