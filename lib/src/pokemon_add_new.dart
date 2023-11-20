@@ -23,21 +23,35 @@ class _AddPokemonFormPageState extends State<AddPokemonFormPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add a new Pokemon'),
-        backgroundColor: const Color(0xFF0B479E),
+        title: const Text('Add a new Pokemon!'),
+        backgroundColor: Colors.red,
+        foregroundColor: Colors.black,
       ),
       body: Container(
-        color: const Color(0xFFABCAED),
+        color: Colors.white,
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 32.0),
         child: Form(
           key: _formKey,
           child: Column(
             children: [
+              const SizedBox(height: 200.0),
               TextFormField(
                 controller: _nameController,
                 decoration: const InputDecoration(
                   labelText: 'Pokemon Name',
                   labelStyle: TextStyle(color: Colors.black),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -46,10 +60,14 @@ class _AddPokemonFormPageState extends State<AddPokemonFormPage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 16.0),
+              const SizedBox(height: 50.0),
               ElevatedButton(
                 onPressed: () => submitPokemon(context),
-                child: const Text('Submit Pokemon'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  foregroundColor: Colors.white,
+                ),
+                child: const Text('Add Pokemon'),
               ),
             ],
           ),

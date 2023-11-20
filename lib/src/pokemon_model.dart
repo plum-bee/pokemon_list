@@ -12,7 +12,7 @@ class Pokemon {
   int? weight;
   List<String>? types;
 
-  int rating = 10;
+  int rating = 0;
 
   Pokemon(this.name);
 

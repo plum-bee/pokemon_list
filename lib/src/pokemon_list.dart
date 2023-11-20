@@ -6,7 +6,6 @@ class PokemonList extends StatelessWidget {
   final List<Pokemon> pokemons;
 
   const PokemonList(this.pokemons, {super.key});
-
   @override
   Widget build(BuildContext context) {
     return _buildList(context);

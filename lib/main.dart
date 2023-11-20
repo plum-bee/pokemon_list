@@ -13,11 +13,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'My fav Pokemons',
+      title: 'My Favorite Pokemons',
       theme: ThemeData(
         brightness: Brightness.dark,
       ),
-      home: const MyHomePage(title: 'My fav Pokemons'),
+      home: const MyHomePage(title: 'My Favorite Pokemons'),
     );
   }
 }
@@ -35,7 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Pokemon> initialPokemons = [
     Pokemon('Treecko'),
     Pokemon('Torchic'),
-    Pokemon('Mudkip')
+    Pokemon('Mudkip'),
   ];
 
   Future _showNewPokemonForm() async {
@@ -46,8 +46,9 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     if (newPokemon is Pokemon) {
-      initialPokemons.add(newPokemon);
-      setState(() {});
+      setState(() {
+        initialPokemons.add(newPokemon);
+      });
     }
   }
 
@@ -63,19 +64,19 @@ class _MyHomePageState extends State<MyHomePage> {
           style: const TextStyle(color: Colors.white),
         ),
         centerTitle: true,
-        backgroundColor: const Color(0xFF0B479E),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: _showNewPokemonForm,
-          ),
-        ],
+        backgroundColor: Colors.black,
       ),
       body: Container(
         color: const Color.fromARGB(255, 88, 111, 137),
         child: Center(
           child: PokemonList(initialPokemons),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _showNewPokemonForm,
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
+        child: const Icon(Icons.add),
       ),
     );
   }
