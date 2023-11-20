@@ -38,6 +38,18 @@ class _MyHomePageState extends State<MyHomePage> {
     Pokemon('Mudkip'),
   ];
 
+  bool isSortedDescending = true;
+
+  void _sortPokemons() {
+    setState(() {
+      if (isSortedDescending) {
+        initialPokemons.sort((a, b) => b.rating.compareTo(a.rating));
+      } else {
+        initialPokemons.sort((a, b) => a.rating.compareTo(b.rating));
+      }
+    });
+  }
+
   Future _showNewPokemonForm() async {
     final newPokemon = await Navigator.of(context).push(
       MaterialPageRoute(builder: (BuildContext context) {
@@ -65,6 +77,12 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         centerTitle: true,
         backgroundColor: Colors.black,
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: _showNewPokemonForm,
+          ),
+        ],
       ),
       body: Container(
         color: const Color.fromARGB(255, 88, 111, 137),
@@ -73,10 +91,16 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _showNewPokemonForm,
+        onPressed: () {
+          setState(() {
+            isSortedDescending = !isSortedDescending;
+            _sortPokemons();
+          });
+        },
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
-        child: const Icon(Icons.add),
+        child: Icon(
+            isSortedDescending ? Icons.arrow_downward : Icons.arrow_upward),
       ),
     );
   }

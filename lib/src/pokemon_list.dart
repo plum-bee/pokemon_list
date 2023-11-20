@@ -2,20 +2,33 @@ import 'package:flutter/material.dart';
 import 'pokemon_model.dart';
 import 'pokemon_card.dart';
 
-class PokemonList extends StatelessWidget {
+class PokemonList extends StatefulWidget {
   final List<Pokemon> pokemons;
 
-  const PokemonList(this.pokemons, {super.key});
+  const PokemonList(this.pokemons, {Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
-    return _buildList(context);
+  _PokemonListState createState() => _PokemonListState();
+}
+
+class _PokemonListState extends State<PokemonList> {
+  void _updateRating(Pokemon updatedPokemon) {
+    setState(() {
+      int index =
+          widget.pokemons.indexWhere((p) => p.name == updatedPokemon.name);
+      if (index != -1) {
+        widget.pokemons[index] = updatedPokemon;
+      }
+    });
   }
 
-  ListView _buildList(context) {
+  @override
+  Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: pokemons.length,
+      itemCount: widget.pokemons.length,
       itemBuilder: (context, index) {
-        return PokemonCard(pokemons[index]);
+        return PokemonCard(widget.pokemons[index],
+            onRatingUpdated: _updateRating);
       },
     );
   }

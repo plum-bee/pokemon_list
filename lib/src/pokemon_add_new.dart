@@ -53,6 +53,7 @@ class _AddPokemonFormPageState extends State<AddPokemonFormPage> {
                     borderSide: BorderSide(color: Colors.red),
                   ),
                 ),
+                style: const TextStyle(color: Colors.black),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter the pokemon name';
