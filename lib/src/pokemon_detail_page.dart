@@ -27,23 +27,93 @@ class _PokemonDetailPageState extends State<PokemonDetailPage> {
     });
   }
 
-  SliderThemeData _sliderStyle() {
-    return SliderTheme.of(context).copyWith(
-      activeTrackColor: Colors.orange,
-      inactiveTrackColor: Colors.orange[200],
-      trackShape: const RoundedRectSliderTrackShape(),
-      trackHeight: 4.0,
-      thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 12.0),
-      thumbColor: Colors.orange,
-      overlayColor: Colors.orange.withOpacity(0.3),
-      overlayShape: const RoundSliderOverlayShape(overlayRadius: 28.0),
-      tickMarkShape: const RoundSliderTickMarkShape(),
-      activeTickMarkColor: Colors.orange,
-      inactiveTickMarkColor: Colors.orange[200],
-      valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
-      valueIndicatorColor: Colors.orange,
-      valueIndicatorTextStyle: const TextStyle(
-        color: Colors.white,
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey,
+      appBar: AppBar(
+        backgroundColor: Colors.blueGrey,
+        title: Text(
+          'Meet ${widget.pokemon.name}',
+          style: const TextStyle(
+            color: Colors.black87,
+            fontStyle: FontStyle.italic,
+          ),
+        ),
+      ),
+      body: ListView(
+        children: <Widget>[
+          pokemonProfile,
+          addYourRating,
+        ],
+      ),
+    );
+  }
+
+  Widget get pokemonProfile {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 32.0),
+      decoration: BoxDecoration(
+        color: Colors.indigoAccent,
+        border: Border.all(color: Colors.grey, width: 5),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          pokemonImage,
+          const SizedBox(height: 20.0),
+          Text(
+            widget.pokemon.name,
+            style: const TextStyle(
+                color: Colors.black,
+                fontSize: 32.0,
+                fontWeight: FontWeight.bold),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 5.0),
+            child: rating,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: Text(
+              'Species: ${widget.pokemon.species?.toString() ?? "Unknown"}',
+              style: const TextStyle(
+                fontSize: 18.0,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 3.0),
+            child: Text(
+              'Height: ${widget.pokemon.height?.toString() ?? "Unknown"}',
+              style: const TextStyle(
+                fontSize: 18.0,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 3.0),
+            child: Text(
+              'Weight: ${widget.pokemon.weight?.toString() ?? "Unknown"}',
+              style: const TextStyle(
+                fontSize: 18.0,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 3.0),
+            child: Text(
+              'Types: ${widget.pokemon.types?.join(', ') ?? "Unknown"}',
+              style: const TextStyle(
+                fontSize: 18.0,
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -85,52 +155,6 @@ class _PokemonDetailPageState extends State<PokemonDetailPage> {
         ),
         submitRatingButton,
       ],
-    );
-  }
-
-  void updateRating() {
-    if (_sliderValue < 3) {
-      _ratingErrorDialog();
-    } else {
-      setState(() {
-        widget.pokemon.rating = _sliderValue.toInt();
-        widget.onRatingUpdated(widget.pokemon);
-        widget.onSortPokemons();
-      });
-    }
-  }
-
-  Future<void> _ratingErrorDialog() async {
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Error'),
-            content: const Text("Come on! They're good!"),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('Try Again'),
-                onPressed: () => Navigator.of(context).pop(),
-              )
-            ],
-          );
-        });
-  }
-
-  Widget get submitRatingButton {
-    return ElevatedButton(
-      onPressed: () => updateRating(),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.orange,
-        textStyle: const TextStyle(fontSize: 15),
-      ),
-      child: const Text(
-        'Rate it!',
-        style: TextStyle(
-          color: Colors.black,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
     );
   }
 
@@ -180,83 +204,71 @@ class _PokemonDetailPageState extends State<PokemonDetailPage> {
     );
   }
 
-  Widget get pokemonProfile {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 32.0),
-      decoration: BoxDecoration(
-        color: Colors.indigoAccent,
-        border: Border.all(color: Colors.grey, width: 5),
+  void updateRating() {
+    if (_sliderValue < 3) {
+      _ratingErrorDialog();
+    } else {
+      if (mounted) {
+        setState(() {
+          widget.pokemon.rating = _sliderValue.toInt();
+          widget.onRatingUpdated(widget.pokemon);
+          widget.onSortPokemons();
+        });
+      }
+    }
+  }
+
+  Future<void> _ratingErrorDialog() async {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Error'),
+            content: const Text("Come on! They're good!"),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Try Again'),
+                onPressed: () => Navigator.of(context).pop(),
+              )
+            ],
+          );
+        });
+  }
+
+  Widget get submitRatingButton {
+    return ElevatedButton(
+      onPressed: () => updateRating(),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.orange,
+        textStyle: const TextStyle(fontSize: 15),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          pokemonImage,
-          const SizedBox(height: 20.0),
-          Text(
-            widget.pokemon.name,
-            style: const TextStyle(
-                color: Colors.black,
-                fontSize: 32.0,
-                fontWeight: FontWeight.bold),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 5.0),
-            child: rating,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: Text(
-              'Height: ${widget.pokemon.height?.toString() ?? "Unknown"}',
-              style: const TextStyle(
-                fontSize: 18.0,
-                color: Colors.black,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 3.0),
-            child: Text(
-              'Weight: ${widget.pokemon.weight?.toString() ?? "Unknown"}',
-              style: const TextStyle(
-                fontSize: 18.0,
-                color: Colors.black,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 3.0),
-            child: Text(
-              'Types: ${widget.pokemon.types?.join(', ') ?? "Unknown"}',
-              style: const TextStyle(
-                fontSize: 18.0,
-                color: Colors.black,
-              ),
-            ),
-          ),
-        ],
+      child: const Text(
+        'Rate it!',
+        style: TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey,
-      appBar: AppBar(
-        backgroundColor: Colors.blueGrey,
-        title: Text(
-          'Meet ${widget.pokemon.name}',
-          style: const TextStyle(
-            color: Colors.black87,
-            fontStyle: FontStyle.italic,
-          ),
-        ),
-      ),
-      body: ListView(
-        children: <Widget>[
-          pokemonProfile,
-          addYourRating,
-        ],
+  SliderThemeData _sliderStyle() {
+    return SliderTheme.of(context).copyWith(
+      activeTrackColor: Colors.orange,
+      inactiveTrackColor: Colors.orange[200],
+      trackShape: const RoundedRectSliderTrackShape(),
+      trackHeight: 4.0,
+      thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 12.0),
+      thumbColor: Colors.orange,
+      overlayColor: Colors.orange.withOpacity(0.3),
+      overlayShape: const RoundSliderOverlayShape(overlayRadius: 28.0),
+      tickMarkShape: const RoundSliderTickMarkShape(),
+      activeTickMarkColor: Colors.orange,
+      inactiveTickMarkColor: Colors.orange[200],
+      valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
+      valueIndicatorColor: Colors.orange,
+      valueIndicatorTextStyle: const TextStyle(
+        color: Colors.white,
       ),
     );
   }

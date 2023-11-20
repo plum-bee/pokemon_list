@@ -11,7 +11,6 @@ class Pokemon {
   int? height;
   int? weight;
   List<String>? types;
-
   int rating = 0;
 
   Pokemon(this.name);

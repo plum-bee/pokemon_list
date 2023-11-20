@@ -48,6 +48,14 @@ class _PokemonCardState extends State<PokemonCard>
     }
   }
 
+  void showPokemonDetailPage() {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return PokemonDetailPage(widget.pokemon,
+          onRatingUpdated: widget.onRatingUpdated,
+          onSortPokemons: widget.onSortPokemons);
+    }));
+  }
+
   Widget get pokemonImage {
     var pokemonAvatar = Hero(
       tag: widget.pokemon,
@@ -123,14 +131,6 @@ class _PokemonCardState extends State<PokemonCard>
         ],
       ),
     );
-  }
-
-  void showPokemonDetailPage() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-      return PokemonDetailPage(widget.pokemon,
-          onRatingUpdated: widget.onRatingUpdated,
-          onSortPokemons: widget.onSortPokemons);
-    }));
   }
 
   @override

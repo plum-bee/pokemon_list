@@ -15,13 +15,15 @@ class PokemonList extends StatefulWidget {
 
 class _PokemonListState extends State<PokemonList> {
   void _updateRating(Pokemon updatedPokemon) {
-    setState(() {
-      int index =
-          widget.pokemons.indexWhere((p) => p.name == updatedPokemon.name);
-      if (index != -1) {
-        widget.pokemons[index] = updatedPokemon;
-      }
-    });
+    if (mounted) {
+      setState(() {
+        int index =
+            widget.pokemons.indexWhere((p) => p.name == updatedPokemon.name);
+        if (index != -1) {
+          widget.pokemons[index] = updatedPokemon;
+        }
+      });
+    }
   }
 
   @override
